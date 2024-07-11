@@ -1,4 +1,4 @@
-var getWakas = function(s) {
+export var getWakas = function(s) {
 	var res = [];
 	for (var i = 0; i < WAKA100.length; i++) {
 		var w = WAKA100[i];
@@ -8,7 +8,7 @@ var getWakas = function(s) {
 	}
 	return res;
 };
-var getWaka = function(no) {
+export var getWaka = function(no) {
 	var cropWaka = function(s) {
 		return s.replace(/\（[^）.]+\）/g, "");
 	};

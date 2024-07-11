@@ -6,10 +6,10 @@
 <link rel="apple-touch-icon" href="muno.jpg"/>
 <title>muno3</title>
 <meta property="og:image" content="http://fukuno.jig.jp/2013/muno3.jpg"/>
-<script src="fukuno.js"></script><script src="help2.js"></script>
-<script src="waka100.js"></script>
-<script src="muno.js"></script>
-<script>"use strict";
+<script type="module">
+import { Muno } from "./muno.js";
+import { get, create } from "./fukuno.js";
+
 window.onload = function() {
 	var setWindow = function() {
 		var p = get("log");
@@ -36,8 +36,9 @@ window.onload = function() {
 	var muno = new Muno(function(s) {
 		println("ムノー＞" + s);
 	});
-	get("form").onsubmit = function() {
-		try {
+	get("form").onsubmit = function(e) {
+		e.preventDefault();
+		//try {
 			var s = get("in").value;
 			var maxlen = 1000;
 			if (s.length > maxlen)
@@ -45,9 +46,9 @@ window.onload = function() {
 			println("あなた＞" + s);
 			muno.input(s);
 			get("in").value = "";
-		} catch (e) {
-			alert(e);
-		}
+		//} catch (e) {
+			//alert(e);
+		//}
 		return false;
 	};
 	muno.output("ぼくは人工無脳のムノーです。");

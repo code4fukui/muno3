@@ -1,6 +1,10 @@
 // ムノーくん
 
-var Muno = function(outputcallback) {
+import { CSV } from "https://code4fukui.github.io/CSV/CSV.js";
+import { getWaka, getWakas } from "./waka100.js";
+import { rnd } from "./fukuno.js";
+
+export var Muno = function(outputcallback) {
 	this.outputcb = outputcallback;
 	var said = [];
 	var muno = this;
@@ -21,7 +25,7 @@ var Muno = function(outputcallback) {
 	};
 	this.greeting();
 	this.log = function(s, b) {
-		jsonp("/2013/muno-log.js?s=" + encodeURIComponent(s) + "-" + b);
+		//jsonp("/2013/muno-log.js?s=" + encodeURIComponent(s) + "-" + b);
 	};
 	this.normalize = function(s) {
 		var s2 = "";
@@ -245,7 +249,7 @@ var Muno = function(outputcallback) {
 	];
 	// 今年30歳の人の干支は？
 	this.when = function(s) {
-		if (s.startsWith("今何時") || s.startsWith("いまなんじ")) {
+		if (s.startsWith("今何時") || s.startsWith("いまなんじ") || s.startsWith("何時")) {
 			var d = new Date();
 			this.output("今は" + d.getHours() + "時" + d.getMinutes() + "分です");
 			return true;
@@ -499,12 +503,19 @@ var Muno = function(outputcallback) {
 		}
 	};
 	this.sabakan = function(s) {
+		if (s.indexOf("鯖江") === -1)
+			return false;
 		if (!this.sabakanmode) {
-			if (s.indexOf("鯖江") === -1)
-				return false;
 			s = undefined;
 			this.sabakanmode = true;
 		} else {
+			const saba = muno.data[rnd(muno.data.length)];
+			this.output("鯖江で" + saba.カテゴリ + "といえば、" + saba.名称 + "！");
+			setTimeout(() => {
+				this.output(saba["説明(日本語)"]);
+			}, 1000);
+			return true;
+
 			var cf1 = getTypesInArray(muno.data, "cf1");
 			if (s === undefined || s.indexOf("鯖江") !== -1 || s === "？") {
 				this.output("鯖江で何する？" + cf1.join("？") + "？");
@@ -566,6 +577,11 @@ var Muno = function(outputcallback) {
 	};
 };
 var getTypesInArray = function(ar, name, opt) {
+	console.log(name);
+	name = {
+		cf1: "カテゴリ",
+		cf2: "カテゴリ補足",
+	}[name];
 	var s = {};
 	if (opt === undefined) {
 		for (var i = 0; i < ar.length; i++) {
@@ -586,14 +602,19 @@ var getTypesInArray = function(ar, name, opt) {
 	return res;
 };
 var getSabakan = function(callback) {
-	var url = "http://www3.city.sabae.fukui.jp/xml/sabakan/sabakan.xml";
+	//var url = "http://www3.city.sabae.fukui.jp/xml/sabakan/sabakan.xml";
+	//const url = "https://data.odp.jig.jp/viewcsv/jp/fukui/sabae/197.csv";
+	const url = "https://code4fukui.github.io/muno3/data/197_sabakan.csv";
+	CSV.fetchJSON(url).then(res => {
+		console.log(res);
+		callback(res);
+	});
+	/*
 	ajax(proxyXML(url), function(data) {
 		data = xml2json(data);
 //		dump(data);
 		var sabadata = data.dataroot.sabakan;
 		callback(sabadata);
 	});
-};
-var proxyXML = function(url) {
-	return "/proxy/ITqT5WkhCf2yn1s9?cnv=xml&" + "cache=no&url=" + encodeURIComponent(url);
+	*/
 };
