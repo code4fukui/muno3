@@ -10,9 +10,9 @@ export var Muno = function(outputcallback) {
 	var said = [];
 	var muno = this;
 	this.lastcom = 0;
-	this.output = function(s) {
+	this.output = function(s, flg) {
 		said.push(s);
-		muno.outputcb(s);
+		muno.outputcb(s, flg);
 		muno.lastcom = new Date().getTime();
 	};
 	this.greeting = function() {
