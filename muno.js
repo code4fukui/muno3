@@ -45,6 +45,7 @@ export var Muno = function(outputcallback) {
 		var b = this.process(s);
 		this.log(s, b);
 		this.lastcom = new Date().getTime();
+		return b;
 	};
 	this.process = function(s) {
 		s = this.normalize(s);
