@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=1024, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/><!-- default / black / black-translucent -->
+<meta name="format-detection" content="telephone=no"/>
+<link rel="apple-touch-icon" href="muno.jpg"/>
+<title>muno3</title>
+<meta property="og:image" content="http://fukuno.jig.jp/2013/muno3.jpg"/>
+<script src="fukuno.js"></script><script src="help2.js"></script>
+<script src="waka100.js"></script>
+<script src="muno.js"></script>
+<script>"use strict";
+window.onload = function() {
+	var setWindow = function() {
+		var p = get("log");
+		var pp = p.parentElement;
+		var pw = pp.clientWidth;
+		var ph = pp.clientHeight;
+		p.style.posWidth = pw - 8 * 2;
+		p.style.posHeight = window.innerHeight - 30 - 8 * 2;
+	};
+	window.onresize = setWindow;
+	setWindow();
+	
+	var println = function(s) {
+		var logv = get("log");
+		var btm = logv.scrollTop + logv.clientHeight == logv.scrollHeight;
+		var d = create("div");
+		d.innerHTML = s;
+		logv.appendChild(d);
+		btm = true;
+		if (btm)
+			logv.scrollTop = logv.scrollHeight - logv.clientHeight;
+	};
+	
+	var muno = new Muno(function(s) {
+		println("ムノー＞" + s);
+	});
+	get("form").onsubmit = function() {
+		try {
+			var s = get("in").value;
+			var maxlen = 1000;
+			if (s.length > maxlen)
+				s = s.substring(0, maxlen);
+			println("あなた＞" + s);
+			muno.input(s);
+			get("in").value = "";
+		} catch (e) {
+			alert(e);
+		}
+		return false;
+	};
+	muno.output("ぼくは人工無脳のムノーです。");
+	muno.startSabakan();
+};
+</script>
+<style>
+body {
+	margin: 0px;
+	text-align: center;
+}
+#log {
+	position: relative;
+	background: #ffe;
+	text-align: left;
+	line-height: 1.6em;
+	overflow: scroll;
+	padding: 8px;
+}
+#inp {
+	position: fixed;
+	width: 100%;
+	height: 30px;
+	bottom: 0px;
+	background: #cc8;
+	text-align: left;
+	padding: 2px;
+}
+#in {
+	width: 80%;
+	height: 22px;
+	padding-left: 4px;
+	vertical-align: bottom;
+}
+#sub {
+	vertical-align: base-line;
+}
+</style>
+</head>
+<body>
+
+<div id="main"><div id="log"></div><div id="inp"><form id="form"><input type="text" id="in"><input type="submit" id="sub" value="発言"></form></div></div>
+
+</body>
+</html>
