@@ -2,7 +2,8 @@
 
 import { CSV } from "https://code4fukui.github.io/CSV/CSV.js";
 import { getWaka, getWakas } from "./waka100.js";
-import { rnd } from "./fukuno.js";
+import { rnd } from "https://js.sabae.cc/rnd.js";
+import { addComma } from "https://js.sabae.cc/Num.js";
 
 export var Muno = function(outputcallback) {
 	this.outputcb = outputcallback;
@@ -130,9 +131,9 @@ export var Muno = function(outputcallback) {
 			out("ちょっと自信がありませんが、勉強します！");
 		} else {
 			if (s.endsWith("？")) {
-				out("すみません、分かりません");
+				out("すみません、分かりません", true);
 			} else {
-				out("うん、うん");
+				out("うん、うん", true);
 			}
 			return false;
 		}
@@ -503,11 +504,11 @@ export var Muno = function(outputcallback) {
 		}
 	};
 	this.sabakan = function(s) {
-		if (s.indexOf("鯖江") === -1)
+		if (s && s.indexOf("鯖江") === -1)
 			return false;
 		if (!this.sabakanmode) {
-			s = undefined;
-			this.sabakanmode = true;
+			this.startSabakan();
+			return true;
 		} else {
 			const saba = muno.data[rnd(muno.data.length)];
 			this.output("鯖江で" + saba.カテゴリ + "といえば、" + saba.名称 + "！");
@@ -577,7 +578,6 @@ export var Muno = function(outputcallback) {
 	};
 };
 var getTypesInArray = function(ar, name, opt) {
-	console.log(name);
 	name = {
 		cf1: "カテゴリ",
 		cf2: "カテゴリ補足",
@@ -606,15 +606,7 @@ var getSabakan = function(callback) {
 	//const url = "https://data.odp.jig.jp/viewcsv/jp/fukui/sabae/197.csv";
 	const url = "https://code4fukui.github.io/muno3/data/197_sabakan.csv";
 	CSV.fetchJSON(url).then(res => {
-		console.log(res);
+		//console.log(res);
 		callback(res);
 	});
-	/*
-	ajax(proxyXML(url), function(data) {
-		data = xml2json(data);
-//		dump(data);
-		var sabadata = data.dataroot.sabakan;
-		callback(sabadata);
-	});
-	*/
 };
