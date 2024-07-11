@@ -186,12 +186,12 @@ export var Muno = function(outputcallback) {
 		if (s === undefined) {
 			this.output("すみません、わかりません", true);
 //			this.output(s1 + "って何ですか？");
-			return true;
+			return false;
 		}
 		var ans = s[s2];
 		if (ans === undefined) {
 			this.output("すみません、わかりません", true);
-			return true;
+			return false;
 		}
 		this.output(ans + "！");
 		return true;
@@ -204,12 +204,12 @@ export var Muno = function(outputcallback) {
 				var db = thingsdb[key];
 				if (db === undefined) {
 					this.output("すみません、わかりません", true);
-					return true;
+					return false;
 				}
 				var isa = db.is_a;
 				if (isa === undefined) {
 					this.output("すみません、わかりません", true);
-					return true;
+					return false;
 				}
 				this.output(isa + "です");
 				return true;
