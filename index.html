@@ -11,82 +11,82 @@ import { Muno } from "./muno.js";
 import { get, create } from "./fukuno.js";
 
 window.onload = function() {
-	const setWindow = function() {
-		const p = get("log");
-		const pp = p.parentElement;
-		const pw = pp.clientWidth;
-		const ph = pp.clientHeight;
-		p.style.posWidth = pw - 8 * 2;
-		p.style.posHeight = window.innerHeight - 30 - 8 * 2;
-	};
-	window.onresize = setWindow;
-	setWindow();
-	
-	const println = function(s) {
-		const logv = get("log");
-		let btm = logv.scrollTop + logv.clientHeight == logv.scrollHeight;
-		const d = create("div");
-		d.innerHTML = s;
-		logv.appendChild(d);
-		btm = true;
-		if (btm) {
-			//logv.scrollTop = logv.scrollHeight - logv.clientHeight;
-			logv.scrollIntoView({ block: "end", behavior: "smooth" });
-		}
-	};
-	
-	const muno = new Muno(function(s) {
-		println("ムノー＞" + s);
-	});
-	get("form").onsubmit = async function(e) {
-		e.preventDefault();
-		//try {
-			const s = get("in").value;
-			const maxlen = 1000;
-			if (s.length > maxlen)
-				s = s.substring(0, maxlen);
-			println("あなた＞" + s);
-			await muno.input(s);
-			get("in").value = "";
-		//} catch (e) {
-			//alert(e);
-		//}
-		return false;
-	};
-	muno.output("ぼくは人工無脳のムノーです。");
-	//muno.startSabakan();
+  const setWindow = function() {
+    const p = get("log");
+    const pp = p.parentElement;
+    const pw = pp.clientWidth;
+    const ph = pp.clientHeight;
+    p.style.posWidth = pw - 8 * 2;
+    p.style.posHeight = window.innerHeight - 30 - 8 * 2;
+  };
+  window.onresize = setWindow;
+  setWindow();
+  
+  const println = function(s) {
+    const logv = get("log");
+    let btm = logv.scrollTop + logv.clientHeight == logv.scrollHeight;
+    const d = create("div");
+    d.innerHTML = s;
+    logv.appendChild(d);
+    btm = true;
+    if (btm) {
+      //logv.scrollTop = logv.scrollHeight - logv.clientHeight;
+      logv.scrollIntoView({ block: "end", behavior: "smooth" });
+    }
+  };
+  
+  const muno = new Muno(function(s) {
+    println("ムノー＞" + s);
+  });
+  get("form").onsubmit = async function(e) {
+    e.preventDefault();
+    //try {
+      const s = get("in").value;
+      const maxlen = 1000;
+      if (s.length > maxlen)
+        s = s.substring(0, maxlen);
+      println("あなた＞" + s);
+      await muno.input(s);
+      get("in").value = "";
+    //} catch (e) {
+      //alert(e);
+    //}
+    return false;
+  };
+  muno.output("ぼくは人工無脳のムノーです。");
+  //muno.startSabakan();
 };
 </script>
 <style>
 body {
-	margin: 0px;
-	text-align: center;
+  margin: 0px;
+  text-align: center;
 }
 #log {
-	position: relative;
-	background: #ffe;
-	text-align: left;
-	line-height: 1.6em;
-	overflow: scroll;
-	padding: 8px;
+  position: relative;
+  background: #ffe;
+  text-align: left;
+  line-height: 1.6em;
+  overflow: scroll;
+  padding: 8px;
 }
 #inp {
-	position: fixed;
-	width: 100%;
-	height: 30px;
-	bottom: 0px;
-	background: #cc8;
-	text-align: left;
-	padding: 2px;
+  position: fixed;
+  width: 100%;
+  height: 30px;
+  bottom: 0px;
+  background: #cc8;
+  text-align: left;
+  padding: 2px;
 }
 #in {
-	width: 80%;
-	height: 22px;
-	padding-left: 4px;
-	vertical-align: bottom;
+  width: 80%;
+  height: 22px;
+  padding-left: 4px;
+  vertical-align: bottom;
 }
 #sub {
-	vertical-align: base-line;
+  vertical-align: base-line;
 }
 </style>
 </head>
