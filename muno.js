@@ -4,6 +4,9 @@ import { CSV } from "https://code4fukui.github.io/CSV/CSV.js";
 import { getWaka, getWakas } from "./waka100.js";
 import { rnd } from "https://js.sabae.cc/rnd.js";
 import { addComma } from "https://js.sabae.cc/Num.js";
+import { EateryToyama } from "https://code4fukui.github.io/opendata-toyama/EateryToyama.js";
+
+const eaterytoyama = new EateryToyama();
 
 export var Muno = function(outputcallback) {
 	this.outputcb = outputcallback;
@@ -41,13 +44,13 @@ export var Muno = function(outputcallback) {
 		}
 		return s2;
 	};
-	this.input = function(s) {
-		var b = this.process(s);
+	this.input = async function(s) {
+		var b = await this.process(s);
 		this.log(s, b);
 		this.lastcom = new Date().getTime();
 		return b;
 	};
-	this.process = function(s) {
+	this.process = async function(s) {
 		s = this.normalize(s);
 		this.lastcom = new Date().getTime();
 		if (this.warikan(s))
@@ -131,6 +134,11 @@ export var Muno = function(outputcallback) {
 		} else if (s.endsWith("分かった？") || s.endsWith("わかった？")) {
 			out("ちょっと自信がありませんが、勉強します！");
 		} else {
+			const res = await eaterytoyama.query(s);
+			if (res) {
+				res.split("\n").forEach(i => out(i));
+				return true;
+			}
 			if (s.endsWith("？")) {
 				out("すみません、分かりません", true);
 			} else {

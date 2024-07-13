@@ -11,40 +11,42 @@ import { Muno } from "./muno.js";
 import { get, create } from "./fukuno.js";
 
 window.onload = function() {
-	var setWindow = function() {
-		var p = get("log");
-		var pp = p.parentElement;
-		var pw = pp.clientWidth;
-		var ph = pp.clientHeight;
+	const setWindow = function() {
+		const p = get("log");
+		const pp = p.parentElement;
+		const pw = pp.clientWidth;
+		const ph = pp.clientHeight;
 		p.style.posWidth = pw - 8 * 2;
 		p.style.posHeight = window.innerHeight - 30 - 8 * 2;
 	};
 	window.onresize = setWindow;
 	setWindow();
 	
-	var println = function(s) {
-		var logv = get("log");
-		var btm = logv.scrollTop + logv.clientHeight == logv.scrollHeight;
-		var d = create("div");
+	const println = function(s) {
+		const logv = get("log");
+		let btm = logv.scrollTop + logv.clientHeight == logv.scrollHeight;
+		const d = create("div");
 		d.innerHTML = s;
 		logv.appendChild(d);
 		btm = true;
-		if (btm)
-			logv.scrollTop = logv.scrollHeight - logv.clientHeight;
+		if (btm) {
+			//logv.scrollTop = logv.scrollHeight - logv.clientHeight;
+			logv.scrollIntoView({ block: "end", behavior: "smooth" });
+		}
 	};
 	
-	var muno = new Muno(function(s) {
+	const muno = new Muno(function(s) {
 		println("ムノー＞" + s);
 	});
-	get("form").onsubmit = function(e) {
+	get("form").onsubmit = async function(e) {
 		e.preventDefault();
 		//try {
-			var s = get("in").value;
-			var maxlen = 1000;
+			const s = get("in").value;
+			const maxlen = 1000;
 			if (s.length > maxlen)
 				s = s.substring(0, maxlen);
 			println("あなた＞" + s);
-			muno.input(s);
+			await muno.input(s);
 			get("in").value = "";
 		//} catch (e) {
 			//alert(e);
