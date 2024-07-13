@@ -192,13 +192,13 @@ export var Muno = function(outputcallback) {
 		
 		var s = thingsdb[s1];
 		if (s === undefined) {
-			this.output("すみません、わかりません", true);
+			//this.output("すみません、わかりません", true);
 //			this.output(s1 + "って何ですか？");
 			return false;
 		}
 		var ans = s[s2];
 		if (ans === undefined) {
-			this.output("すみません、わかりません", true);
+			//this.output("すみません、わかりません", true);
 			return false;
 		}
 		this.output(ans + "！");
@@ -211,12 +211,12 @@ export var Muno = function(outputcallback) {
 				var key = s.substring(0, s.length - gobi[i].length);
 				var db = thingsdb[key];
 				if (db === undefined) {
-					this.output("すみません、わかりません", true);
+					//this.output("すみません、わかりません", true);
 					return false;
 				}
 				var isa = db.is_a;
 				if (isa === undefined) {
-					this.output("すみません、わかりません", true);
+					//this.output("すみません、わかりません", true);
 					return false;
 				}
 				this.output(isa + "です");
